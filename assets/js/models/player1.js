@@ -98,22 +98,29 @@ class Player1 {
 
     animate() {
         if (this.movements.left) {
-            this.animateSprite(3, 0, MOVEMENT_FRAMES);
+            this.animateSprite(3, MOVEMENT_FRAMES);
         } else if (this.movements.right) {
-            this.animateSprite(1, 0, MOVEMENT_FRAMES);
+            this.animateSprite(1, MOVEMENT_FRAMES);
         } else if (this.movements.up) {
-            this.animateSprite(2, 0, MOVEMENT_FRAMES);
+            this.animateSprite(2, MOVEMENT_FRAMES);
         } else if (this.movements.down) {
-            this.animateSprite(0, 0, MOVEMENT_FRAMES);
+            this.animateSprite(0, MOVEMENT_FRAMES);
         }
     }
 
-    animateSprite(initialVerticalIndex, initialHorizontalIndex, frequency) {
+    animateSprite(initialVerticalIndex, frequency) {
         this.sprite.verticalFrameIndex = initialVerticalIndex;
-        this.sprite.horizontalFrameIndex = initialHorizontalIndex;
         if (this.sprite.drawCount % frequency === 0) {
             this.sprite.horizontalFrameIndex = (this.sprite.horizontalFrameIndex + 1) % this.sprite.horizontalFrames;
             this.sprite.drawCount = 0;
         }
     }
+
+    collidesWith(element) {
+        return this.x < element.x + element.width &&
+            this.x + this.width > element.x &&
+            this.y < element.y + element.height &&
+            this.y + this.height > element.y;
+    }
+
 }

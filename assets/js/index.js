@@ -9,7 +9,5 @@ window.addEventListener('load', () => {
         game.onKeyEvent(event);
     });
 
-    document.addEventListener('keypress', (event) => {
-        game.start();
-    });
+    game.start();
 });

@@ -10,6 +10,7 @@ class Game {
 
         this.background = new Background(this.ctx);
         this.player1 = new Player1(this.ctx, 10, 10);
+        this.player2 = new Player2(this.ctx, 50, 50);
     }
 
     start() {
@@ -22,6 +23,7 @@ class Game {
 
     onKeyEvent(event) {
         this.player1.onKeyEvent(event);
+        this.player2.onKeyEvent(event);
     }
 
     clear() {
@@ -31,9 +33,18 @@ class Game {
     draw() {
         this.background.draw();
         this.player1.draw();
+        this.player2.draw();
     }
 
     move() {
         this.player1.move();
+        this.player2.move();
+    }
+
+    checkCollision() {
+        const 
+        if (this.player1.collidesWith(this.player2)) {
+            console.log("Player 1 Wins")
+        }
     }
 }
