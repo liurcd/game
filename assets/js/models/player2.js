@@ -2,7 +2,7 @@ class Player2 extends Player1{
     constructor(ctx, x, y) {
         super(ctx, x, y)
 
-        this.sprite.src = './assets/img/mouse.sprite.png';
+        this.sprite.src = './assets/img/squirel.sprite.png';
     }
     
     onKeyEvent(event) {

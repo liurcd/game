@@ -5,12 +5,13 @@ class Player1 {
         this.y = y;
         this.vx = 0;
         this.vy = 0;
+        this.direction = "down";
 
         this.width = 0;
         this.height = 0;
     
         this.sprite = new Image();
-        this.sprite.src = './assets/img/dog.sprite.png';
+        this.sprite.src = './assets/img/growlithe.sprite.png';
         this.sprite.horizontalFrames = 2;
         this.sprite.verticalFrames = 4;
         this.sprite.horizontalFrameIndex = 0;
@@ -32,6 +33,9 @@ class Player1 {
             left: false,
             down: false
         }
+
+        this.canFire = true;
+        this.bullets = [];
     }
 
     isReady() {
@@ -43,15 +47,45 @@ class Player1 {
         switch (event.keyCode) {
           case P1_KEY_UP:
             this.movements.up = status;
+            this.direction = "up"
             break;
           case P1_KEY_DOWN:
             this.movements.down = status;
+            this.direction = "down"
             break;
           case P1_KEY_RIGHT:
             this.movements.right = status;
+            this.direction = "right"
             break;
           case P1_KEY_LEFT:
             this.movements.left = status;
+            this.direction = "left"
+            break;
+          case P1_KEY_ATTACK:
+            if (this.canFire) {
+                let attackX, attackY;
+                switch (this.direction) {
+                    case "down":
+                        attackX = this.x + this.width / 2 - 6;
+                        attackY = this.y + this.height;
+                        break;
+                    case "up":
+                        attackX = this.x + this.width / 2 - 6;
+                        attackY = this.y - 10;
+                        break;
+                    case "left":
+                        attackX = this.x - 10;
+                        attackY = this.y + this.height / 2 - 4;
+                        break;
+                    case "right":
+                        attackX = this.x + this.width;
+                        attackY = this.y + this.height / 2 - 4;
+                        break;
+                }
+                this.bullets.push(new Attack(this.ctx, attackX, attackY, this.direction));
+                this.canFire = false;
+                setTimeout(() => this.canFire = true, 200);
+            }
             break;
         }
     }
@@ -70,12 +104,16 @@ class Player1 {
                 this.height
             );
 
+            // this.ctx.strokeRect(this.x, this.y, this.width, this.height)
+            this.bullets.forEach(bullet => bullet.draw());
             this.sprite.drawCount++;
             this.animate();
         }
     };
 
     move() {
+        this.bullets.forEach(bullet => bullet.move());
+
         if (this.movements.left) {
             this.vx = -SPEED;
         } else if (this.movements.right) {
@@ -84,7 +122,7 @@ class Player1 {
             this.vx = 0;
         }
 
-        if(this.movements.up) {
+        if (this.movements.up) {
             this.vy = -SPEED;
         } else if (this.movements.down) {
             this.vy = SPEED;
@@ -116,11 +154,28 @@ class Player1 {
         }
     }
 
-    collidesWith(element) {
-        return this.x < element.x + element.width &&
-            this.x + this.width > element.x &&
-            this.y < element.y + element.height &&
-            this.y + this.height > element.y;
+    checkCollide(o) {
+        let colX = this.x + this.width * 0.95 > o.x && this.x + this.width < o.x + o.width + this.width;
+        let colY = this.y + this.height * 0.95 > o.y && this.y + this.height < o.y + o.height + this.height;
+        return colX && colY;
     }
 
+    kills(player) {
+        for ( let i = 0; i < this.bullets.length; i++ ) {
+            if (player.checkCollide(this.bullets[i])) {
+                this.bullets.splice(i, 1)
+                return true;
+            } 
+        }
+
+        return false;
+    }
+
+    bulletCollisionWithObstacles(o) {
+        for (let i = 0; i < this.bullets.length; i++) {
+            if (o.checkCollide(this.bullets[i])) {
+                this.bullets.splice(i, 1)
+            }
+        }
+    }
 }

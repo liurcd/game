@@ -8,7 +8,7 @@ class Background {
         this.w = this.ctx.canvas.width;
 
         this.img = new Image();
-        this.img.src = "assets/img/map.png";
+        this.img.src = "assets/img/map3.png";
         this.img.isReady = false;
         this.img.onload = () => {
             this.img.isReady = true;
