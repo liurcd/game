@@ -25,7 +25,15 @@ class Game {
             this.move();
             this.draw();
             this.checkCollisions();
+            console.log(this.player1.health, this.player2.health);
         }, this.fps)
+    }
+
+    stop() {
+        this.clear();
+        clearInterval(this.drawIntervalId);
+        this.drawIntervalId = undefined;
+        document.querySelector(".overlay").classList.toggle("hide");
     }
 
     onKeyEvent(event) {
@@ -53,6 +61,12 @@ class Game {
         return this.obstacles.some((o) => player.checkCollide(o));
     }
 
+    checkBulletCollisionWithObstacles(player) {
+        for (let i = 0; i < this.obstacles.length; i++) {
+            player.bulletCollisionWithObstacle(this.obstacles[i])
+        }
+    }
+
     stopPlayer(player) {
         player.x -= player.vx;
         player.y -= player.vy;
@@ -65,11 +79,22 @@ class Game {
         if (this.checkPlayerCollisionWithObstacles(this.player2)) {
             this.stopPlayer(this.player2);
         }
-        if (this.player1.kills(this.player2)) {
-            //quitar vida
+        if (this.player1.damage(this.player2)) {
+            if (this.player2.health === 0) {
+                this.stop();
+            } else {
+                this.player2.health -= 1;
+            }
         }
-        if (this.player2.kills(this.player1)) {
-            //quitar vida
+        if (this.player2.damage(this.player1)) {
+            if (this.player1.health === 0) {
+                this.stop();
+            } else {
+                this.player1.health -= 1;
+            }
         }
+
+        this.checkBulletCollisionWithObstacles(this.player1)
+        this.checkBulletCollisionWithObstacles(this.player2)
     }
 }

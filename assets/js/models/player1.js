@@ -2,9 +2,12 @@ class Player1 {
     constructor(ctx, x, y) {
         this.ctx = ctx;
         this.x = x;
+        this.maxX = this.ctx.canvas.height;
         this.y = y;
+        this.maxY = this.ctx.canvas.width;
         this.vx = 0;
         this.vy = 0;
+
         this.direction = "down";
 
         this.width = 0;
@@ -34,6 +37,7 @@ class Player1 {
             down: false
         }
 
+        this.health = 2;
         this.canFire = true;
         this.bullets = [];
     }
@@ -82,9 +86,9 @@ class Player1 {
                         attackY = this.y + this.height / 2 - 4;
                         break;
                 }
-                this.bullets.push(new Attack(this.ctx, attackX, attackY, this.direction));
+                this.bullets.push(new Attack(this.ctx, attackX, attackY, this.direction, './assets/img/fireball.sprite.png'));
                 this.canFire = false;
-                setTimeout(() => this.canFire = true, 200);
+                setTimeout(() => this.canFire = true, 1000);
             }
             break;
         }
@@ -132,6 +136,12 @@ class Player1 {
 
         this.x += this.vx;
         this.y += this.vy;
+
+        if (this.x >= this.maxX) {
+            this.x = this.maxX;
+        } else if (this.y >= this.maxY) {
+            this.y = this.maxY;
+        }
     }
 
     animate() {
@@ -160,7 +170,7 @@ class Player1 {
         return colX && colY;
     }
 
-    kills(player) {
+    damage(player) {
         for ( let i = 0; i < this.bullets.length; i++ ) {
             if (player.checkCollide(this.bullets[i])) {
                 this.bullets.splice(i, 1)
@@ -171,9 +181,9 @@ class Player1 {
         return false;
     }
 
-    bulletCollisionWithObstacles(o) {
+    bulletCollisionWithObstacle(o) {
         for (let i = 0; i < this.bullets.length; i++) {
-            if (o.checkCollide(this.bullets[i])) {
+            if (this.bullets[i].checkCollide(o)) {
                 this.bullets.splice(i, 1)
             }
         }

@@ -9,5 +9,9 @@ window.addEventListener('load', () => {
         game.onKeyEvent(event);
     });
 
-    game.start();
+    const gameStartButton = document.getElementById("gamestart");
+    gameStartButton.onclick = () => {
+        document.querySelector(".overlay").classList.toggle("hide");
+        game.start();
+    };
 });

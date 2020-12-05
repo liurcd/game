@@ -5,10 +5,45 @@ html, body {
 
 .container {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-areas:
+        'header header header'
+        'player1 main player2';
+}
+
+header {
+    grid-area: header;
+    display: flex;
+    justify-content: center;
+    background-color: bisque;
+}
+
+.player1 {
+    grid-area: player1;
 }
 
 canvas {
+    grid-area: main;
     display: flex;
     margin: auto;
+}
+
+.player2 {
+    grid-area: player2;
+}
+
+.overlay {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.overlay img {
+    padding-bottom: 80px;
+}
+
+.overlay.hide {
+    display: none;
 }
