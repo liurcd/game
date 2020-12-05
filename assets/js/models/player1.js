@@ -2,11 +2,14 @@ class Player1 {
     constructor(ctx, x, y) {
         this.ctx = ctx;
         this.x = x;
-        this.maxX = this.ctx.canvas.height;
         this.y = y;
-        this.maxY = this.ctx.canvas.width;
         this.vx = 0;
         this.vy = 0;
+
+        this.maxX = this.ctx.canvas.width;
+        this.minX = 0;
+        this.maxY = this.ctx.canvas.height;
+        this.minY = 0;
 
         this.direction = "down";
 
@@ -88,10 +91,18 @@ class Player1 {
                 }
                 this.bullets.push(new Attack(this.ctx, attackX, attackY, this.direction, './assets/img/fireball.sprite.png'));
                 this.canFire = false;
-                setTimeout(() => this.canFire = true, 1000);
+                setTimeout(() => this.canFire = true, 500);
             }
             break;
         }
+    }
+
+    clear() {
+        this.bullets = this.bullets.filter(bullet => 
+            bullet.y >= this.minY &&
+            bullet.y <= this.maxY &&
+            bullet.x >= this.minX &&
+            bullet.x <= this.maxX);
     }
 
     draw() {
@@ -137,10 +148,10 @@ class Player1 {
         this.x += this.vx;
         this.y += this.vy;
 
-        if (this.x >= this.maxX) {
-            this.x = this.maxX;
-        } else if (this.y >= this.maxY) {
-            this.y = this.maxY;
+        if (this.x + this.width >= this.maxX || this.x <= this.minX) {
+            this.x -= this.vx;
+        } else if (this.y + this.height >= this.maxY || this.y <= this.minY) {
+            this.y -= this.vy;
         }
     }
 

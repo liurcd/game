@@ -3,6 +3,27 @@ html, body {
     margin: 0;
 }
 
+.overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: blanchedalmond;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.overlay img {
+    padding-bottom: 80px;
+}
+
+.hide {
+    display: none;
+}
+
 .container {
     display: grid;
     grid-template-areas:
@@ -29,21 +50,4 @@ canvas {
 
 .player2 {
     grid-area: player2;
-}
-
-.overlay {
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.overlay img {
-    padding-bottom: 80px;
-}
-
-.overlay.hide {
-    display: none;
 }
