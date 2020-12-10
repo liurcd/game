@@ -26,7 +26,7 @@ class Player2 extends Player1{
             break;
           case P2_KEY_ATTACK:
               if (this.canFire) {
-                  let attackX, attackY;
+                  let attackX, attackY; 
                   switch (this.direction) {
                       case "down":
                           attackX = this.x + this.width / 2 - 6;
@@ -47,7 +47,7 @@ class Player2 extends Player1{
                   }
                   this.bullets.push(new Attack(this.ctx, attackX, attackY, this.direction, './assets/img/nube.sprite.png'));
                   this.canFire = false;
-                  setTimeout(() => this.canFire = true, 200);
+                  setTimeout(() => this.canFire = true, 500);
               }
               break;
           }

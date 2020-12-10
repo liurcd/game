@@ -34,7 +34,11 @@ class Game {
         clearInterval(this.drawIntervalId);
         this.drawIntervalId = undefined;
         this.player1.health = 2;
+        this.player1.x = 5;
+        this.player1.y = 10;
         this.player2.health = 2;
+        this.player2.x = this.canvas.width - 60;
+        this.player2.y = this.canvas.height - 60;
         document.querySelector(".overlay").classList.toggle("hide");
         document.getElementById("gamestart").innerText = "Play again"
     }
